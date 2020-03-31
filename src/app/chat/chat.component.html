@@ -1,0 +1,39 @@
+<div class="bg">
+  <div class="chat__bar">
+    <div class="menu">
+      <div class="online-panel">
+        <p class="name" > {{ nickName }} </p>
+        <div class="online" >ONLINE</div>
+      </div>
+      <div class="example-button-row">
+        <button (click)="logOut()" mat-raised-button color="primary">Log Out</button>
+      </div>
+    </div>
+    <div class="messages__container">
+      <div class="messages__block">
+        <mat-list>
+          <ul id="list" *ngFor="let messages of messages">
+            <li [ngClass]="{
+            listItem: messages.name !== nickName,
+            activeItem: messages.name == nickName
+            }" >
+              <p class="userName"><strong> {{messages.name}}: </strong></p>
+              <p> {{messages.value}} </p>
+            </li>
+          </ul>
+        </mat-list>
+      </div>
+      <form #sendForm="ngForm" novalidate (ngSubmit)="onSendMessage(sendForm)" >
+        <div class="message-form">
+          <mat-form-field class="message__input" appearance="fill">
+            <mat-label>Message</mat-label>
+            <input name="message" matInput [(ngModel)]="value" placeholder="Write here" >
+          </mat-form-field>
+          <div class="example-button-row">
+            <button class="btnSend" mat-raised-button color="primary">Send</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

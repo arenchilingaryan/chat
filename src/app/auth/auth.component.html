@@ -1,0 +1,16 @@
+<div class="auth-bg">
+  <div class="auth">
+    <div  class="auth__block">
+      <form #myForm="ngForm" novalidate (ngSubmit)="onSubmit(myForm)">
+        <h1>Your Name?</h1>
+        <mat-form-field class="auth__input" appearance="fill">
+          <mat-label>Username</mat-label>
+          <input name="input" matInput [(ngModel)]="name" required>
+        </mat-form-field>
+        <div class="example-button-row">
+          <button  mat-raised-button color="primary">Log In</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
