@@ -2,8 +2,8 @@
   <div class="chat__bar">
     <div class="menu">
       <div class="online-panel">
-        <p class="name" > {{ nickName }} </p>
-        <div class="online" >ONLINE</div>
+        <p class="name"> {{ nickName }} </p>
+        <div class="online">ONLINE</div>
       </div>
       <div class="example-button-row">
         <button (click)="logOut()" mat-raised-button color="primary">Log Out</button>
@@ -16,18 +16,61 @@
             <li [ngClass]="{
             listItem: messages.name !== nickName,
             activeItem: messages.name == nickName
-            }" >
+            }">
               <p class="userName"><strong> {{messages.name}}: </strong></p>
               <p> {{messages.value}} </p>
+              <div *ngIf="messages.name == nickName && !messages.edit" class="example-button-row">
+                <button
+                  class="mat-mini-fab"
+                  [id]="messages.id"
+                  (click)="onChangeEdit($event)"
+                  style="background-color: #cccccc"
+                >&#10000;
+                </button>
+                <button
+                  class="mat-mini-fab"
+                  [id]="messages.id"
+                  (click)="onDelete($event)"
+                  style="background-color: tomato"
+                >&#10006;
+                </button>
+              </div>
+              <form
+                [id]="messages.id"
+                #editForm="ngForm"
+                (ngSubmit)="onEnterChangeEdit(editForm)"
+                (click)="findId($event)"
+                novalidate
+                *ngIf="messages.edit && messages.name == nickName"
+                class="example-form"
+              >
+                <mat-form-field class="example-full-width">
+                  <mat-label>Edit me</mat-label>
+                  <input name="editValue" [(ngModel)]="editValue" matInput placeholder="Write here">
+                </mat-form-field>
+                <button
+                  [id]="messages.id"
+                  class="btnEdit mat-mini-fab"
+                  style="background-color: #2f9ae1; color: white"
+                >&#10004;
+                </button>
+                <button
+                  [id]="messages.id"
+                  class="btnEdit mat-mini-fab"
+                  style="background-color: tomato; color: white"
+                  (click)="onChangeEdit($event)"
+                >&#10006;
+                </button>
+              </form>
             </li>
           </ul>
         </mat-list>
       </div>
-      <form #sendForm="ngForm" novalidate (ngSubmit)="onSendMessage(sendForm)" >
+      <form #sendForm="ngForm" novalidate (ngSubmit)="onSendMessage(sendForm)">
         <div class="message-form">
           <mat-form-field class="message__input" appearance="fill">
             <mat-label>Message</mat-label>
-            <input name="message" matInput [(ngModel)]="value" placeholder="Write here" >
+            <input name="message" matInput [(ngModel)]="value" placeholder="Write here">
           </mat-form-field>
           <div class="example-button-row">
             <button class="btnSend" mat-raised-button color="primary">Send</button>

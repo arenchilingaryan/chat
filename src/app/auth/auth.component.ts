@@ -5,11 +5,11 @@ import {Component, Input, OnInit} from '@angular/core';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent  {
+export class AuthComponent {
 
-  @Input() status
+  @Input() status;
 
-  name = ''
+  name = '';
 
   onSubmit(form) {
     form.value.input !== undefined && form.value.input !== '' ?
