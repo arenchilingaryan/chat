@@ -1,32 +1,35 @@
-import {OnChanges, Component, Input} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnChanges {
-  constructor() {
+export class ChatComponent implements OnInit {
+  constructor(
+    private router: Router
+  ) {
   }
-
-  @Input() status;
-  @Input() nickName;
-
   messages = [];
-
   value = '';
-
   editValue = '';
-
   id = 0;
-
   idItem = null;
+  nick = null;
+  status = false;
 
-
-  ngOnChanges(): void {
+  ngOnInit(): void {
+    this.nick = localStorage.getItem('nickName');
     const messagesData = localStorage.getItem('messages');
-    const data = JSON.parse(messagesData);
-    this.messages = data;
+    this.messages = JSON.parse(messagesData);
+    if (this.nick == null) {
+      this.router.navigate(['auth']);
+      localStorage.setItem('status', 'false');
+      alert('Не суй ручки в локалстор, проказник');
+    } else {
+      null
+    }
     if (this.messages !== null) {
       this.id = this.messages.length;
     } else {
@@ -76,7 +79,7 @@ export class ChatComponent implements OnChanges {
   pushCreator(message) {
     return {
       id: this.id + 1,
-      name: this.nickName,
+      name: this.nick,
       value: message,
       edit: false
     };
@@ -102,7 +105,9 @@ export class ChatComponent implements OnChanges {
 
   logOut() {
     localStorage.removeItem('nickName');
-    this.nickName = null;
+    localStorage.removeItem('status');
+    this.router.navigate(['auth']);
+    this.nick = null;
   }
 
 }
